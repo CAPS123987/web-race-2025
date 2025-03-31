@@ -12,11 +12,11 @@ import LoadingPage from '@/components/LoadingPage.tsx'
 import { ThemeProvider } from '@/components/theme-provider'
 
 import PocketBase from 'pocketbase'
+import MomentumScroll from './components/MomentumScroll'
 const apiPath = "http://127.0.0.1:8090"
 
-const App = lazy(() => import('@/pages/App'))
+const Home = lazy(() => import('@/pages/home/Home'))
 const Login = lazy(() => import('@/pages/Login'))
-const Header = lazy(() => import('@/components/Header'))
 const Register = lazy(() => import('@/pages/register/Register'))
 const Scroll = lazy(() => import('@/pages/scroll/Scroll'))
 
@@ -29,25 +29,19 @@ const LazyLoader:React.FC<ChildrenProps> = ({children}) => {
 const routes = [
   {
     path: '/',
-    element: <LazyLoader><Header/></LazyLoader>,
-    children: [
-      {
-        path: '/',
-        element: <LazyLoader><App/></LazyLoader>
-      },
-      {
-        path: '/login',
-        element: <LazyLoader><Login/></LazyLoader>
-      },
-      {
-        path: '/register',
-        element: <LazyLoader><Register/></LazyLoader>
-      },
-      {
-        path: '/scroll',
-        element: <LazyLoader><Scroll/></LazyLoader>
-      },
-    ]
+    element: <LazyLoader><Home/></LazyLoader>
+  },
+  {
+    path: '/login',
+    element: <LazyLoader><Login/></LazyLoader>
+  },
+  {
+    path: '/register',
+    element: <LazyLoader><Register/></LazyLoader>
+  },
+  {
+    path: '/scroll',
+    element: <LazyLoader><Scroll/></LazyLoader>
   },
 ]
 
@@ -67,8 +61,10 @@ const ContextWrapper:React.FC<ChildrenProps> = ({children}) => {
   return(
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <GlobalContext.Provider value={{value,setValue,client}}>
-        <Toaster richColors  position="bottom-left" visibleToasts={3} />
-        {children}
+        
+          <Toaster richColors  position="bottom-left" visibleToasts={3} />
+          {children}
+        
       </GlobalContext.Provider>
     </ThemeProvider>
   )
@@ -77,7 +73,9 @@ const ContextWrapper:React.FC<ChildrenProps> = ({children}) => {
 createRoot(document.getElementById('root')!).render(
   //<StrictMode>
     <ContextWrapper>
-      <RouterProvider router={router} />
+      
+        <RouterProvider router={router} />
+      
     </ContextWrapper>
   //</StrictMode>,
 )
